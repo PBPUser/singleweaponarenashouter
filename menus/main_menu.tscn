@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/menus/MainMenu.cs" id="1_ajs2s"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,8 +10,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ajs2s")
+container = NodePath("MenuList")
 
-[node name="Control" type="GridContainer" parent="."]
+[node name="MenuList" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -25,24 +26,24 @@ offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StartBtn" type="Button" parent="Control"]
+[node name="StartBtn" type="Button" parent="MenuList"]
 layout_mode = 2
 text = "Start New Game"
 
-[node name="LoadBtn" type="Button" parent="Control"]
+[node name="LoadBtn" type="Button" parent="MenuList"]
 layout_mode = 2
 text = "Load Game"
 
-[node name="OptionsBtn" type="Button" parent="Control"]
+[node name="OptionsBtn" type="Button" parent="MenuList"]
 layout_mode = 2
 text = "Options
 "
 
-[node name="QuitBtn" type="Button" parent="Control"]
+[node name="QuitBtn" type="Button" parent="MenuList"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="Control/StartBtn" to="." method="_on_start_btn_pressed"]
-[connection signal="pressed" from="Control/LoadBtn" to="." method="_on_load_btn_pressed"]
-[connection signal="pressed" from="Control/OptionsBtn" to="." method="_on_options_btn_pressed"]
-[connection signal="pressed" from="Control/QuitBtn" to="." method="_on_quit_btn_pressed"]
+[connection signal="pressed" from="MenuList/StartBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="MenuList/LoadBtn" to="." method="_on_load_btn_pressed"]
+[connection signal="pressed" from="MenuList/OptionsBtn" to="." method="_on_options_btn_pressed"]
+[connection signal="pressed" from="MenuList/QuitBtn" to="." method="_on_quit_btn_pressed"]

@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://b04sji45ld0s4"]
+
+[ext_resource type="Script" path="res://scripts/main/entities/bosses/BossRotator.cs" id="1_mjn0x"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vel4k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mcyse"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mawd1"]
+
+[node name="BossRotator" type="CharacterBody3D"]
+script = ExtResource("1_mjn0x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_vel4k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_mcyse")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.055, 0, 0, 0, 0.055, 0.5, 0.5, 0)
+mesh = SubResource("BoxMesh_mawd1")

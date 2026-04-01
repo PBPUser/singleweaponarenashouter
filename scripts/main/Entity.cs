@@ -13,6 +13,8 @@ public partial class Entity : CharacterBody3D
         set => autoDie = value;
     }
 
+    protected double __delta;
+
     float health = 20.0f;
     public float Health
     {
@@ -63,8 +65,23 @@ public partial class Entity : CharacterBody3D
     {
         if (Position.Y < -100)
         {
-            Health -= (float)delta * fallingDamage;
+            Health -= (float)delta * fallingDamage * 5;
             fallingDamage += (float)delta;
         }
+    }
+
+    public const float Speed = 5.0f;
+    public const float JumpVelocity = 4.5f;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        __delta = delta;
+        Vector3 velocity = Velocity;
+        if (!IsOnFloor())
+        {
+            velocity += GetGravity() * (float)delta;
+        }
+        Velocity = velocity;
+        MoveAndSlide();
     }
 }

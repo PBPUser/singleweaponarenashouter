@@ -20,6 +20,9 @@ public partial class Player : Entity
 	PauseMenu pause;
 
 	[Export]
+	PlayerDeathUI deathUI;
+
+	[Export]
 	float mouseSensitivity = 0.3f;
 
 	// Called when the node enters the scene tree for the first time.
@@ -32,12 +35,19 @@ public partial class Player : Entity
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("pause"))
+		if (Input.IsActionJustPressed("pause") && !IsDied)
 		{
 			pause.Visible = !pause.Visible;
 		}
 		hud.Health.Text = Health + "";
 		base._Process(delta);
+	}
+
+	public override void Died(bool value)
+	{
+		GetTree().Paused = value;
+		Input.MouseMode = value ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+		deathUI.Visible = value;
 	}
 
 	public override void _Input(Godot.InputEvent ev)

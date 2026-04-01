@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
+using Godot;
 
-public class LevelBossInfo
+public class InfoBoss
 {
     [JsonInclude]
     public string ID;
@@ -13,4 +14,5 @@ public class LevelBossInfo
 
     [JsonInclude]
     public DamageModifier[] DamageModifiers;
+
 }

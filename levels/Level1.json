@@ -1,0 +1,47 @@
+{
+  "Bosses": [
+    {
+      "ID": "rotatator_boss_1",
+      "BossClass": "BossRotator",
+      "BossScene": "boss_rotator",
+      "ConstructorValues": []
+    }
+  ],
+  "Stages": [
+    {
+      "StageCaption": "Rotate & Shoot",
+      "Type": 0,
+      "Length": 100,
+      "Actions": [
+        {
+          "ID": "rotatator_boss_1",
+          "Tick": 0,
+          "ScriptClass": "BossRotator",
+          "ScriptMethod": "rotate_and_shoot",
+          "Values": []
+        },
+        {
+          "ID": "rotatator_boss_1",
+          "Tick": 50,
+          "ScriptClass": "BossRotator",
+          "ScriptMethod": "jump",
+          "Values": []
+        }
+      ]
+    },
+    {
+      "StageCaption": "Until Death!!",
+      "Type": 1,
+      "Length": 100,
+      "Actions": [
+        {
+          "ID": "rotatator_boss_1",
+          "Tick": 0,
+          "ScriptClass": "BossRotator",
+          "ScriptMethod": "jump",
+          "Values": []
+        }
+      ]
+    }
+  ]
+}

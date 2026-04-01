@@ -4,11 +4,16 @@ using System.Diagnostics;
 
 public partial class MainMenu : Control
 {
-	PackedScene _gameplayScene = GD.Load<PackedScene>("res:///scenes/gameplay.tscn");
+	[Export]
+	GridContainer container;
+
+	PackedScene levelSelectionPackedScene = GD.Load<PackedScene>("res:///menus/level_selection_menu.tscn");
+	LevelSelectionMenu selectionMenu;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		selectionMenu = levelSelectionPackedScene.Instantiate<LevelSelectionMenu>();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -18,7 +23,8 @@ public partial class MainMenu : Control
 
 	void _on_start_btn_pressed()
 	{
-		GetTree().ChangeSceneToPacked(_gameplayScene);
+		AddChild(selectionMenu);
+		container.Visible = false;
 	}
 
 	void _on_load_btn_pressed()

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-public class LevelDamageModifierInfo
+public class InfoDamageModifier
 {
     [JsonInclude]
     public float Chance;

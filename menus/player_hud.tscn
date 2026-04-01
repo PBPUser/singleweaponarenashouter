@@ -2,17 +2,20 @@
 
 [ext_resource type="Script" path="res://scripts/menus/PlayerHud.cs" id="1_nn6nx"]
 
-[node name="PlayerHUD" type="Control" node_paths=PackedStringArray("Health", "BossName", "BossStage")]
+[node name="PlayerHUD" type="Control" node_paths=PackedStringArray("Health", "BossName", "BossStage", "Tick")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_nn6nx")
 Health = NodePath("Health")
 BossName = NodePath("BossName")
 BossStage = NodePath("BossStage")
+Tick = NodePath("TickLabel")
 
 [node name="Health" type="Label" parent="."]
 layout_mode = 1
@@ -43,3 +46,15 @@ anchor_right = 1.0
 offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
+
+[node name="TickLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "grfgrfe"
+horizontal_alignment = 1
