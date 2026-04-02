@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cgkqistkqmru4"]
+
+[ext_resource type="Script" uid="uid://qy8jj4uj82pa" path="res://scripts/main/Weapons/Sword.cs" id="1_o616w"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6dwfh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o616w"]
+
+[node name="Sword" type="StaticBody3D" unique_id=701064154]
+transform = Transform3D(0.1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, 0)
+collision_layer = 2
+script = ExtResource("1_o616w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1593817643]
+mesh = SubResource("BoxMesh_6dwfh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2052150229]
+shape = SubResource("BoxShape3D_o616w")

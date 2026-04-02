@@ -4,7 +4,7 @@ using Godot;
 public class InfoAction
 {
     [JsonInclude]
-    public long Tick;
+    public long Tick = 0;
 
     [JsonInclude]
     public string ID;

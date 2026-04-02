@@ -1,27 +1,8 @@
 using Godot;
 using System;
 
-public partial class PlayerHud : Control
+public partial class Sword : StaticBody3D
 {
-	[Export]
-	public Label Health;
-
-	[Export]
-	public Label BossName;
-
-	[Export]
-	public Label BossStage;
-
-	[Export]
-	public Label Tick;
-
-	[Export]
-	public ProgressBar HealthBar;
-
-	[Export]
-	public ProgressBar StaminaBar;
-
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

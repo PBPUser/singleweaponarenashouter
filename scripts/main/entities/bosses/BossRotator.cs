@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 public partial class BossRotator : Boss
 {
+	[Export]
+	NavigationAgent3D navAgent3D;
+
 	public void SetValues()
 	{
 

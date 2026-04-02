@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dknu84i3ctjq1"]
+[gd_scene format=3 uid="uid://dknu84i3ctjq1"]
 
-[ext_resource type="Script" path="res://scripts/menus/PlayerHud.cs" id="1_nn6nx"]
+[ext_resource type="Script" uid="uid://bkmof802ljt33" path="res://scripts/menus/PlayerHud.cs" id="1_nn6nx"]
 
-[node name="PlayerHUD" type="Control" node_paths=PackedStringArray("Health", "BossName", "BossStage", "Tick")]
+[sub_resource type="Theme" id="Theme_iblve"]
+
+[node name="PlayerHUD" type="Control" unique_id=1365397532 node_paths=PackedStringArray("Health", "BossName", "BossStage", "Tick", "HealthBar", "StaminaBar")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,8 +18,10 @@ Health = NodePath("Health")
 BossName = NodePath("BossName")
 BossStage = NodePath("BossStage")
 Tick = NodePath("TickLabel")
+HealthBar = NodePath("Panel/GridContainer/HealthBar")
+StaminaBar = NodePath("Panel/GridContainer/StaminaBar")
 
-[node name="Health" type="Label" parent="."]
+[node name="Health" type="Label" parent="." unique_id=1301728994]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -33,12 +37,12 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="BossName" type="Label" parent="."]
+[node name="BossName" type="Label" parent="." unique_id=1372038287]
 layout_mode = 1
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="BossStage" type="Label" parent="."]
+[node name="BossStage" type="Label" parent="." unique_id=357376031]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -47,7 +51,7 @@ offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
 
-[node name="TickLabel" type="Label" parent="."]
+[node name="TickLabel" type="Label" parent="." unique_id=2125229912]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -58,3 +62,45 @@ offset_bottom = 23.0
 grow_horizontal = 2
 text = "grfgrfe"
 horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="." unique_id=723594364]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -101.0
+offset_right = 288.0
+offset_bottom = -32.0
+grow_vertical = 0
+
+[node name="GridContainer" type="GridContainer" parent="Panel" unique_id=820985964]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 59.0
+
+[node name="Label" type="Label" parent="Panel/GridContainer" unique_id=216076248]
+layout_mode = 2
+text = "Health"
+horizontal_alignment = 3
+
+[node name="HealthBar" type="ProgressBar" parent="Panel/GridContainer" unique_id=491027313]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = SubResource("Theme_iblve")
+max_value = 20.0
+show_percentage = false
+
+[node name="Label2" type="Label" parent="Panel/GridContainer" unique_id=123834961]
+layout_mode = 2
+text = "Stamina"
+horizontal_alignment = 3
+
+[node name="StaminaBar" type="ProgressBar" parent="Panel/GridContainer" unique_id=1488007152]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = SubResource("Theme_iblve")
+max_value = 5.0
+show_percentage = false

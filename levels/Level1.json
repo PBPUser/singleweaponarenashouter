@@ -38,7 +38,7 @@
           "ID": "rotatator_boss_1",
           "Tick": 0,
           "ScriptClass": "BossRotator",
-          "ScriptMethod": "jump",
+          "ScriptMethod": "rotate_and_shoot",
           "Values": []
         }
       ]
