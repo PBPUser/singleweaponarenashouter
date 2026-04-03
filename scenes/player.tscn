@@ -5,20 +5,26 @@
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_qo7hu"]
 
-[node name="Player" type="CharacterBody3D" unique_id=9669033 node_paths=PackedStringArray("playerCamera", "boxWeapon")]
+[node name="Player" type="CharacterBody3D" unique_id=9669033 node_paths=PackedStringArray("playerCamera", "boxWeapon", "collision", "cameraShakeNode")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5408754, 1.0339403, -0.0364511)
 script = ExtResource("1_2olbp")
-playerCamera = NodePath("Camera3D")
-boxWeapon = NodePath("Camera3D/BoxWeapon")
+playerCamera = NodePath("CameraShake/Camera3D")
+boxWeapon = NodePath("CameraShake/Camera3D/BoxWeapon")
+collision = NodePath("CollisionShape3D")
+cameraShakeNode = NodePath("CameraShake")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=203198955]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_qo7hu")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1682559225]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+[node name="CameraShake" type="Node3D" parent="." unique_id=835268749]
+
+[node name="Camera3D" type="Camera3D" parent="CameraShake" unique_id=1682559225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.25)
 current = true
 fov = 90.0
 
-[node name="BoxWeapon" type="Node3D" parent="Camera3D" unique_id=1251418099]
+[node name="BoxWeapon" type="Node3D" parent="CameraShake/Camera3D" unique_id=1251418099]
 
-[node name="Sword" parent="Camera3D/BoxWeapon" unique_id=1742913596 instance=ExtResource("2_g2els")]
+[node name="Sword" parent="CameraShake/Camera3D/BoxWeapon" unique_id=1742913596 instance=ExtResource("2_g2els")]
 transform = Transform3D(-0.084674865, -0.15258396, 0.05096421, 0.020003349, -0.97900283, 0.003923909, 0.0492954, 0.13517115, 0.08594914, 0.3938945, -0.31803858, -0.49383178)

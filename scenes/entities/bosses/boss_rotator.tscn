@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b04sji45ld0s4"]
+[gd_scene format=3 uid="uid://b04sji45ld0s4"]
 
-[ext_resource type="Script" path="res://scripts/main/entities/bosses/BossRotator.cs" id="1_mjn0x"]
+[ext_resource type="Script" uid="uid://c1oun07xubyn" path="res://scripts/main/entities/bosses/BossRotator.cs" id="1_mjn0x"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vel4k"]
 
@@ -9,18 +9,18 @@ size = Vector3(1, 2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_mawd1"]
 
-[node name="BossRotator" type="CharacterBody3D" node_paths=PackedStringArray("navAgent3D")]
+[node name="BossRotator" type="CharacterBody3D" unique_id=924428016 node_paths=PackedStringArray("navAgent3D")]
 script = ExtResource("1_mjn0x")
 navAgent3D = NodePath("NavigationAgent3D")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1186565879]
 mesh = SubResource("CapsuleMesh_vel4k")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1010599995]
 shape = SubResource("BoxShape3D_mcyse")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1189426811]
 transform = Transform3D(1, 0, 0, 0, 0.055, 0, 0, 0, 0.055, 0.5, 0.5, 0)
 mesh = SubResource("BoxMesh_mawd1")
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=701620477]
