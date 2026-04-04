@@ -15,7 +15,7 @@ public partial class Player : Entity
 	const float SHAKE_RANGE = .4f;
 	const float RUNNING_SHAKE = 1.4f;
 	const float CROUCHING_SPEED = 4f;
-	const float CROUCHING_LRNGTH = 1f;
+	const float CROUCHING_LENGTH = 1f;
 	const float CROUCHING_STRENGTH = 4f;
 
 	static Vector3
@@ -41,13 +41,15 @@ public partial class Player : Entity
 	float crouching = 0f;
 	Vector3 crouchingTo = new Vector3(0, 0, 0);
 
+
+
 	bool IsCrouching
 	{
 		get => isCrouching;
 		set
 		{
 			if (value)
-				crouching = CROUCHING_LRNGTH;
+				crouching = CROUCHING_LENGTH;
 			isCrouching = value;
 		}
 	}
@@ -89,7 +91,8 @@ public partial class Player : Entity
 	const float MAX_STAMINA = 5f;
 
 	float shakingTime = 0;
-
+	float time = 0;
+	float timeShaking = 0f;
 
 	[Export]
 	PlayerHud hud;
@@ -155,6 +158,8 @@ public partial class Player : Entity
 	public override void _PhysicsProcess(double delta)
 	{
 		float deltaF = (float)delta;
+		time += deltaF;
+		timeShaking += deltaF;
 		float vX = Velocity.X;
 		float vY = Velocity.Y;
 		float vZ = Velocity.Z;
@@ -206,6 +211,7 @@ public partial class Player : Entity
 			cameraShake = Mathf.MoveToward(cameraShake, isRunning ? 2 : 1, SPEED_DELTA * (float)delta);
 			directionInput = direction;
 			shakingTime += deltaF * 0.007f * cameraShake;
+			timeShaking += deltaF * 0.007f * cameraShake;
 		}
 		var rotationCamera = playerCamera.RotationDegrees;
 		rotationCamera.Z = Mathf.Sin(shakingTime) * cameraShake;
@@ -214,6 +220,11 @@ public partial class Player : Entity
 		shakeNodePos.Y = Mathf.Cos(shakingTime) * cameraShake * 0.1f;
 		cameraShakeNode.Position = shakeNodePos;
 		playerCamera.Position = CAMERA_POSITION_DEFAULT * (1f - sneaking) + (CAMERA_POSITION_CROUCH * sneaking);
+		if (isCrouching)
+		{
+			var crouchAnim = Mathf.Pow((crouching / CROUCHING_LENGTH) * 2 - 1, 4);
+			playerCamera.Position = playerCamera.Position * (1f - crouchAnim) + (CAMERA_POSITION_CROUCH * crouchAnim);
+		}
 		collision.Position = COLLISION_POSITION_DEFAULT * (1f - sneaking) + (COLLISION_POSITION_CROUCH * sneaking);
 		collision.Scale = COLLISION_TRANSFORM_DEFAULT * (1f - sneaking) + (COLLISION_TRANSFORM_CROUCH * sneaking);
 		cameraParalax.X = Mathf.MoveToward(cameraParalax.X, 0, 4f * deltaF);
@@ -228,8 +239,10 @@ public partial class Player : Entity
 			vX = directionInput.X * currentSpeed;
 			vZ = directionInput.Z * currentSpeed;
 		}
-		var rotation = boxWeapon.GlobalRotation;
-		boxWeapon.Rotation = rotation;
+		var posWeapon = boxWeapon.Position;
+		posWeapon = new Vector3(0.02f, 0.02f, 0.02f) * new Vector3(Mathf.Sin(timeShaking * 2f),
+		Mathf.Cos(timeShaking * 2f), 0) * (1f + cameraShake) * 5f;
+		boxWeapon.Position = posWeapon;
 		Velocity = new Vector3(vX, vY, vZ);
 		MoveAndSlide();
 	}
