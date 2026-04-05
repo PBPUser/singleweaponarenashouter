@@ -163,7 +163,7 @@ public partial class Player : Entity
 		float vX = Velocity.X;
 		float vY = Velocity.Y;
 		float vZ = Velocity.Z;
-		isSneaking = Input.IsActionPressed("shift");
+		isSneaking = Input.IsActionPressed("sneak") && !IsCrouching;
 		if (Input.IsActionJustPressed("crouch") && IsOnFloor() && !isCrouching && canRun)
 		{
 			IsCrouching = true;
