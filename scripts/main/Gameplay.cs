@@ -78,9 +78,19 @@ public partial class Gameplay : Node3D
 						pause.Visible = true;
 				}
 			}
-			hud.Tick.Text = tick + "\n" + _stage.TimerType + "\n" + _stage.Length;
+
+			hud.Tick.Text = _stage.TimerType == InfoStage.TimerType.Limited ? formatTime(_stage.Length - (long)tick) : "";
 			hud.BossStage.Text = _stage.StageName;
 		}
+	}
+
+	string formatTime(long tick)
+	{
+		long second = tick / 20;
+		long _tick = tick % 20;
+		long minute = second / 60;
+		second %= 60;
+		return $"{minute:00}:{second:00}.{(_tick * 5):00}";
 	}
 
 	public void SetLevel(LoadedLevel level)
