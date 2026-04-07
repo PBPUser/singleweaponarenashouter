@@ -78,7 +78,6 @@ public partial class Gameplay : Node3D
 						pause.Visible = true;
 				}
 			}
-
 			hud.Tick.Text = _stage.TimerType == InfoStage.TimerType.Limited ? formatTime(_stage.Length - (long)tick) : "";
 			hud.BossStage.Text = _stage.StageName;
 		}
