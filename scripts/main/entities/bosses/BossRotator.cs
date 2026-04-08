@@ -22,6 +22,6 @@ public partial class BossRotator : Boss
 
 	public void rotate_and_shoot()
 	{
-		RotateY((float)__delta);
+		RotateY(__delta);
 	}
 }

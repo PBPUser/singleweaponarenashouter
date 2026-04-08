@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://djlbqchqilmbu"]
+
+[ext_resource type="Script" uid="uid://oxo0uyqvs05i" path="res://scripts/main/Weapons/Pistol.cs" id="1_4jni1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_r3071"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_60a84"]
+
+[node name="Node3D" type="StaticBody3D" unique_id=1024715118]
+transform = Transform3D(0.068, 0, 0, 0, 0.101, 0, 0, 0, 0.222, 0, 0, 0)
+collision_layer = 2
+script = ExtResource("1_4jni1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1165199340]
+mesh = SubResource("BoxMesh_r3071")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2019202019]
+shape = SubResource("BoxShape3D_60a84")

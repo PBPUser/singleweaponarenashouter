@@ -6,7 +6,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1t05q"]
 
-[node name="Bullet" type="StaticBody3D" unique_id=1443582085]
+[node name="Bullet" type="RigidBody3D" unique_id=1316023232]
+mass = 0.001
 script = ExtResource("1_mx1hr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1641265078]

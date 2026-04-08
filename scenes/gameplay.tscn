@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bm4c2y76nem8j"]
+[gd_scene format=3 uid="uid://bm4c2y76nem8j"]
 
-[ext_resource type="Script" path="res://scripts/main/Gameplay.cs" id="1_7408i"]
+[ext_resource type="Script" uid="uid://cwl6i52qjhbic" path="res://scripts/main/Gameplay.cs" id="1_7408i"]
 [ext_resource type="PackedScene" uid="uid://dc8rhv7hj45q7" path="res://scenes/player.tscn" id="1_j7jme"]
 [ext_resource type="PackedScene" uid="uid://bsgdbqrt733o6" path="res://menus/pause_menu.tscn" id="3_0nq73"]
 [ext_resource type="PackedScene" uid="uid://dknu84i3ctjq1" path="res://menus/player_hud.tscn" id="4_8drn1"]
@@ -10,34 +10,36 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aodcw"]
 
-[node name="Gameplay" type="Node3D" node_paths=PackedStringArray("pause", "hud")]
+[node name="Gameplay" type="Node3D" unique_id=1492331028 node_paths=PackedStringArray("pause", "hud", "player")]
 script = ExtResource("1_7408i")
 pause = NodePath("PauseMenu")
 hud = NodePath("PlayerHUD")
+player = NodePath("Player")
 
-[node name="Platform" type="StaticBody3D" parent="."]
+[node name="Platform" type="StaticBody3D" parent="." unique_id=1824558445]
 transform = Transform3D(64, 0, 0, 0, 0.001, 0, 0, 0, 64, 0, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform" unique_id=852282852]
 mesh = SubResource("BoxMesh_t3ix6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform" unique_id=1982857898]
 shape = SubResource("BoxShape3D_aodcw")
 
-[node name="Player" parent="." node_paths=PackedStringArray("hud", "pause", "deathUI") instance=ExtResource("1_j7jme")]
+[node name="Player" parent="." unique_id=858932171 node_paths=PackedStringArray("hud", "pause", "deathUI", "gameplay") instance=ExtResource("1_j7jme")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.46784, 0)
 hud = NodePath("../PlayerHUD")
 pause = NodePath("../PauseMenu")
 deathUI = NodePath("../PlayerDeathUI")
+gameplay = NodePath("..")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=675882525]
 transform = Transform3D(0.12504, 0.990784, -0.0520705, -0.22341, 0.079252, 0.971497, 0.966671, -0.109843, 0.231261, -3.16064, 13.5212, 3.19449)
 
-[node name="PauseMenu" parent="." node_paths=PackedStringArray("hud") instance=ExtResource("3_0nq73")]
+[node name="PauseMenu" parent="." unique_id=1484973053 node_paths=PackedStringArray("hud") instance=ExtResource("3_0nq73")]
 visible = false
 hud = NodePath("../PlayerHUD")
 
-[node name="PlayerHUD" parent="." instance=ExtResource("4_8drn1")]
+[node name="PlayerHUD" parent="." unique_id=1885140338 instance=ExtResource("4_8drn1")]
 
-[node name="PlayerDeathUI" parent="." instance=ExtResource("5_djres")]
+[node name="PlayerDeathUI" parent="." unique_id=258692752 instance=ExtResource("5_djres")]
 visible = false

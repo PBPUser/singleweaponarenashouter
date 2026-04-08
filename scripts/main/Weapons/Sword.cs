@@ -1,7 +1,9 @@
 using Godot;
 using System;
 
-public partial class Sword : StaticBody3D
+[Name("weapon.sword")]
+[Scene("res://scenes/weapons/sword.tscn")]
+public partial class Sword : Weapon
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

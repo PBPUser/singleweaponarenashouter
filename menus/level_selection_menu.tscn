@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://drxfilbv2bdxa"]
+[gd_scene format=3 uid="uid://drxfilbv2bdxa"]
 
-[ext_resource type="Script" path="res://scripts/menus/LevelSelectionMenu.cs" id="1_l2573"]
+[ext_resource type="Script" uid="uid://c1u07ltqeiqlj" path="res://scripts/menus/LevelSelectionMenu.cs" id="1_l2573"]
 
-[node name="LevelSelectionMenu" type="Control" node_paths=PackedStringArray("grid")]
+[node name="LevelSelectionMenu" type="Control" unique_id=158879156 node_paths=PackedStringArray("grid", "weaponContainer", "selectedWeaponLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,9 +10,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l2573")
-grid = NodePath("GridContainer")
+grid = NodePath("LevelSelectionContainer")
+weaponContainer = NodePath("WeaponSelectionContainer")
+selectedWeaponLabel = NodePath("WeaponSelectionLabel")
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="LevelSelectionContainer" type="GridContainer" parent="." unique_id=2095975479]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -25,3 +27,22 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="WeaponSelectionContainer" type="GridContainer" parent="." unique_id=1211621208]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="WeaponSelectionLabel" type="Label" parent="." unique_id=41390997]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Weapon not selected!!!"

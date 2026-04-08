@@ -13,7 +13,7 @@ public partial class Entity : CharacterBody3D
         set => autoDie = value;
     }
 
-    protected double __delta;
+    protected float __delta;
 
     float health = 20.0f;
     public float Health
@@ -75,7 +75,7 @@ public partial class Entity : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        __delta = delta;
+        __delta = (float)delta;
         Vector3 velocity = Velocity;
         if (!IsOnFloor())
         {

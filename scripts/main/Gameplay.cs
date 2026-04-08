@@ -12,6 +12,8 @@ public partial class Gameplay : Node3D
 	PauseMenu pause;
 	[Export]
 	PlayerHud hud;
+	[Export]
+	public Player player;
 
 	LoadedLevel level;
 	bool isLevelLoaded;
@@ -100,5 +102,12 @@ public partial class Gameplay : Node3D
 		stage = 0;
 		activationTicks = level.Stages[0].ActivationTicks;
 		nextActivation = activationTicks[0];
+	}
+
+	public void SetWeapon(SceneAttribute weaponSceneAttrib)
+	{
+		var weaponPS = GD.Load<PackedScene>(weaponSceneAttrib.ScenePath);
+		var weapon = weaponPS.Instantiate<Weapon>();
+		player.SetWeapon(weapon);
 	}
 }
