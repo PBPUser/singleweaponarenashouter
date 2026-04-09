@@ -33,6 +33,7 @@ public class LoadedLevel
 			if (infos.Count() >= 2)
 				throw new Exception($"Two or more constructors {x.BossClass} found. Cannot continue.");
 			PreloadedBosses[x.ID] = bossPackedScenes[x.BossScene].Instantiate() as Boss;
+			PreloadedBosses[x.ID].BossID = x.ID;
 		}
 		foreach (var x in info.Stages)
 			Stages.Add(new LoadedStage(x, PreloadedBosses));

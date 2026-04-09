@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 public partial class Boss : Enemy
 {
     string name;
@@ -19,5 +21,20 @@ public partial class Boss : Enemy
     {
         get => isSpawned;
         set => isSpawned = value;
+    }
+
+    public override void Died(bool isDied)
+    {
+        if (isDied)
+        {
+            Visible = false;
+            ProcessMode = ProcessModeEnum.Disabled;
+            Gameplay.Current.BossDied(bossId);
+        }
+        else
+        {
+            Visible = true;
+            ProcessMode = ProcessModeEnum.Inherit;
+        }
     }
 }

@@ -2,19 +2,36 @@
 
 [ext_resource type="Script" uid="uid://cwl6i52qjhbic" path="res://scripts/main/Gameplay.cs" id="1_7408i"]
 [ext_resource type="PackedScene" uid="uid://dc8rhv7hj45q7" path="res://scenes/player.tscn" id="1_j7jme"]
+[ext_resource type="Texture2D" uid="uid://c7sqt4h3jjtsw" path="res://assets/environments/sky.exr" id="2_din8e"]
 [ext_resource type="PackedScene" uid="uid://bsgdbqrt733o6" path="res://menus/pause_menu.tscn" id="3_0nq73"]
 [ext_resource type="PackedScene" uid="uid://dknu84i3ctjq1" path="res://menus/player_hud.tscn" id="4_8drn1"]
 [ext_resource type="PackedScene" uid="uid://bjgmejdkn8ebc" path="res://menus/player_death_ui.tscn" id="5_djres"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_4bh5q"]
+panorama = ExtResource("2_din8e")
+
+[sub_resource type="Sky" id="Sky_din8e"]
+sky_material = SubResource("PanoramaSkyMaterial_4bh5q")
+
+[sub_resource type="Environment" id="Environment_4bh5q"]
+background_mode = 2
+sky = SubResource("Sky_din8e")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_t3ix6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aodcw"]
 
-[node name="Gameplay" type="Node3D" unique_id=1492331028 node_paths=PackedStringArray("pause", "hud", "player")]
+[node name="Gameplay" type="Node3D" unique_id=1492331028 node_paths=PackedStringArray("pause", "hud", "player", "_Environment")]
 script = ExtResource("1_7408i")
 pause = NodePath("PauseMenu")
 hud = NodePath("PlayerHUD")
 player = NodePath("Player")
+_Environment = NodePath("WorldEnvironment")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1436751996]
+environment = SubResource("Environment_4bh5q")
 
 [node name="Platform" type="StaticBody3D" parent="." unique_id=1824558445]
 transform = Transform3D(64, 0, 0, 0, 0.001, 0, 0, 0, 64, 0, 0, 0)
@@ -26,7 +43,7 @@ mesh = SubResource("BoxMesh_t3ix6")
 shape = SubResource("BoxShape3D_aodcw")
 
 [node name="Player" parent="." unique_id=858932171 node_paths=PackedStringArray("hud", "pause", "deathUI", "gameplay") instance=ExtResource("1_j7jme")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.46784, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.340416, 7.091194, 0)
 hud = NodePath("../PlayerHUD")
 pause = NodePath("../PauseMenu")
 deathUI = NodePath("../PlayerDeathUI")

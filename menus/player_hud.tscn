@@ -4,7 +4,7 @@
 
 [sub_resource type="Theme" id="Theme_iblve"]
 
-[node name="PlayerHUD" type="Control" unique_id=1365397532 node_paths=PackedStringArray("Health", "BossName", "BossStage", "Tick", "HealthBar", "StaminaBar")]
+[node name="PlayerHUD" type="Control" unique_id=1365397532 node_paths=PackedStringArray("Health", "BossName", "BossStage", "Tick", "HealthBar", "StaminaBar", "PositionLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +20,7 @@ BossStage = NodePath("BossStage")
 Tick = NodePath("TickLabel")
 HealthBar = NodePath("Panel/GridContainer/HealthBar")
 StaminaBar = NodePath("Panel/GridContainer/StaminaBar")
+PositionLabel = NodePath("PosLabel")
 
 [node name="Health" type="Label" parent="." unique_id=1301728994]
 layout_mode = 1
@@ -47,8 +48,8 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 23.0
+offset_left = -405.0
+offset_bottom = 388.0
 grow_horizontal = 0
 
 [node name="TickLabel" type="Label" parent="." unique_id=2125229912]
@@ -61,6 +62,17 @@ offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
 text = "grfgrfe"
+horizontal_alignment = 1
+
+[node name="PosLabel" type="Label" parent="." unique_id=1565325508]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 53.0
+grow_vertical = 0
+text = "Position: "
 horizontal_alignment = 1
 
 [node name="Panel" type="Panel" parent="." unique_id=723594364]
@@ -89,7 +101,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme = SubResource("Theme_iblve")
-max_value = 20.0
 show_percentage = false
 
 [node name="Label2" type="Label" parent="Panel/GridContainer" unique_id=123834961]

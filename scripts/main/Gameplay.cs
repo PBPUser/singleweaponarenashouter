@@ -8,81 +8,110 @@ using System.Reflection;
 
 public partial class Gameplay : Node3D
 {
+	public static Gameplay Current;
+
 	[Export]
 	PauseMenu pause;
 	[Export]
 	PlayerHud hud;
 	[Export]
 	public Player player;
+	[Export]
+	public WorldEnvironment _Environment;
 
 	LoadedLevel level;
+	LoadedStage _stage;
 	bool isLevelLoaded;
 	double tick;
 	int stage = 0;
 	long[] activationTicks;
 	int activationIndex = 0;
 	long nextActivation = 0;
+	float totalTicks = 0;
 
+	int bossCount = 0;
 	List<Boss> bosses = new();
 	LoadedAction[] actions;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if (Current != null)
+			System.Environment.Exit(0);
+		Current = this;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (isLevelLoaded)
+		if (!isLevelLoaded)
+			return;
+		tick += (delta * 20);
+		if (tick > nextActivation)
 		{
-			tick += (delta * 20);
-			LoadedStage _stage = level.Stages[stage];
-			if (tick > nextActivation)
-			{
-				activationIndex++;
-				actions = _stage.Actions.Where(x => x.Tick == nextActivation).ToArray();
-				foreach (var x in actions)
-					if (!bosses.Contains(x.Boss))
-					{
-						bosses.Add(x.Boss);
-						AddChild(x.Boss);
-						if (!x.SetPosition)
-							x.Boss.Position = new Vector3(0, 2, 0);
-					}
-				if (activationTicks.Length > activationIndex)
-					nextActivation = activationTicks[activationIndex];
-				foreach (var x in actions)
-					if (x.SetPosition)
-						x.Boss.Position = x.Position;
-			}
+			bossCount = 0;
+			activationIndex++;
+			actions = _stage.Actions.Where(x => x.Tick == nextActivation).ToArray();
 			foreach (var x in actions)
-				x.Method.Invoke(x.Boss, x.Values);
-			if (_stage.Length < tick)
 			{
-				if (_stage.TimerType == InfoStage.TimerType.LoopUntilDeath)
-				{
-					tick -= _stage.Length;
-					nextActivation = activationTicks[0];
-					activationIndex = 0;
-				}
-				else
-				{
-					tick = 0;
-					nextActivation = activationTicks[0];
-					activationIndex = 0;
-					if (level.Stages.Count > stage + 1)
-					{
-						stage++;
-						activationTicks = level.Stages[stage].ActivationTicks;
-					}
-					else
-						pause.Visible = true;
-				}
+				x.Boss.ProcessMode = ProcessModeEnum.Inherit;
+				if (x.SetPosition)
+					x.Boss.Position = x.Position;
 			}
-			hud.Tick.Text = _stage.TimerType == InfoStage.TimerType.Limited ? formatTime(_stage.Length - (long)tick) : "";
-			hud.BossStage.Text = _stage.StageName;
+			if (activationTicks.Length > activationIndex)
+				nextActivation = activationTicks[activationIndex];
 		}
+		foreach (var x in actions)
+			if (!x.Boss.IsDied)
+				x.Method.Invoke(x.Boss, x.Values);
+		if (_stage.Length < tick)
+		{
+			if (_stage.TimerType == InfoStage.TimerType.LoopUntilDeath)
+			{
+				tick -= _stage.Length;
+				nextActivation = 0;
+				activationIndex = 0;
+			}
+			else
+				moveToNextStage();
+		}
+		hud.Tick.Text = _stage.TimerType == InfoStage.TimerType.Limited ? formatTime(_stage.Length - (long)tick) : tick + "";
+		hud.BossStage.Text = _stage.StageName + "\n" + String.Format(", ", level.Stages[stage].ActivationTicks) + $"\nStage: {stage}\nNext tick: {nextActivation}";
+	}
+
+	void moveToNextStage()
+	{
+		tick = 0;
+		activationIndex = 0;
+		if (level.Stages.Count > stage + 1)
+		{
+			stage++;
+			activationTicks = level.Stages[stage].ActivationTicks;
+		}
+		else
+			pause.Visible = true;
+		nextActivation = activationTicks[0];
+		bossCount = 0;
+		bool isNew = false;
+		foreach (var x in level.Stages[stage].BossHealthSet)
+		{
+			isNew = false;
+			bossCount++;
+			x.Boss.Health = x.Value;
+			if (!bosses.Contains(x.Boss))
+			{
+				isNew = true;
+				AddChild(x.Boss);
+				bosses.Add(x.Boss);
+				Debug.WriteLine($"{x.Boss.BossID} added");
+			}
+			x.Boss.Died(false);
+			if (x.Position != null)
+				x.Boss.Position = new Godot.Vector3(x.Position.Value.X, x.Position.Value.Y, x.Position.Value.Z);
+			else if (isNew)
+				x.Boss.Position = Vector3.Up;
+		}
+		_stage = level.Stages[stage];
 	}
 
 	string formatTime(long tick)
@@ -96,12 +125,11 @@ public partial class Gameplay : Node3D
 
 	public void SetLevel(LoadedLevel level)
 	{
+		Debug.WriteLine("level set!");
 		this.level = level;
 		isLevelLoaded = true;
-		tick = 0;
-		stage = 0;
-		activationTicks = level.Stages[0].ActivationTicks;
-		nextActivation = activationTicks[0];
+		stage = -1;
+		moveToNextStage();
 	}
 
 	public void SetWeapon(SceneAttribute weaponSceneAttrib)
@@ -109,5 +137,25 @@ public partial class Gameplay : Node3D
 		var weaponPS = GD.Load<PackedScene>(weaponSceneAttrib.ScenePath);
 		var weapon = weaponPS.Instantiate<Weapon>();
 		player.SetWeapon(weapon);
+	}
+
+	public void BossDied(string bossId)
+	{
+		if (!isLevelLoaded)
+			return;
+		LoadedStage _stage = level.Stages[stage];
+		switch (_stage.RequiredBossTypeDie)
+		{
+			case InfoStage.RequiresToDie.AnyBoss:
+				moveToNextStage();
+				return;
+			case InfoStage.RequiresToDie.ExactBoss:
+				throw new NotImplementedException("TODO: Exact boss");
+			case InfoStage.RequiresToDie.AllBosses:
+				bossCount--;
+				if (bossCount == 0)
+					moveToNextStage();
+				return;
+		}
 	}
 }

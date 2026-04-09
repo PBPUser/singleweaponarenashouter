@@ -6,6 +6,7 @@ using System.Reflection;
 [Scene("res://scenes/weapons/pistol.tscn")]
 public partial class Pistol : Weapon
 {
+	static string[] accepts = { "enemy" };
 	static MethodInfo pistolMethodInfoProcess = Assembly.GetExecutingAssembly().GetType(typeof(Bullet).FullName).GetMethod("ProcessPlayerBulletMethod");
 	static MethodInfo pistolMethodInfoPrepare = Assembly.GetExecutingAssembly().GetType(typeof(Bullet).FullName).GetMethod("PreparePlayerBulletMethod");
 
@@ -24,6 +25,6 @@ public partial class Pistol : Weapon
 
 	public override void Attack(Gameplay gameplay, Player player)
 	{
-		Bullet.Spawn(pistolMethodInfoPrepare, pistolMethodInfoProcess, player.Position, gameplay);
+		Bullet.Spawn(pistolMethodInfoPrepare, pistolMethodInfoProcess, player.Position, gameplay, player.DamageModifiers, player.DamageValue, accepts, 3f);
 	}
 }

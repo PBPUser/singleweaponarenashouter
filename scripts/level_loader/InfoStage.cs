@@ -8,6 +8,13 @@ public class InfoStage
     [JsonInclude]
     public InfoAction[] Actions;
 
+    public enum RequiresToDie
+    {
+        AnyBoss = 0,
+        ExactBoss = 1,
+        AllBosses = 2
+    }
+
     public enum TimerType
     {
         Limited = 0,
@@ -18,5 +25,14 @@ public class InfoStage
     public TimerType Type;
 
     [JsonInclude]
+    public RequiresToDie BossRequiredToDie = RequiresToDie.AnyBoss;
+
+    [JsonInclude]
+    public string ExactDieBossID;
+
+    [JsonInclude]
     public long Length;
+
+    [JsonInclude]
+    public InfoStageBoss[] SetBosses;
 }

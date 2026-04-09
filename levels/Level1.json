@@ -11,7 +11,13 @@
     {
       "StageCaption": "Rotate & Shoot",
       "Type": 0,
-      "Length": 100,
+      "Length": 1000,
+      "SetBosses": [
+        {
+          "ID": "rotatator_boss_1",
+          "Value": 20
+        }
+      ],
       "Actions": [
         {
           "ID": "rotatator_boss_1",
@@ -24,15 +30,22 @@
           "ID": "rotatator_boss_1",
           "Tick": 50,
           "ScriptClass": "BossRotator",
-          "ScriptMethod": "jump",
+          "ScriptMethod": "rotate_and_shoot",
           "Values": []
         }
       ]
     },
     {
       "StageCaption": "Bread",
-      "Type": 0,
+      "Type": 1,
+      "BossRequiredToDie": 0,
       "Length": 100,
+      "SetBosses": [
+        {
+          "ID": "rotatator_boss_1",
+          "Value": 20
+        }
+      ],
       "Actions": [
         {
           "ID": "rotatator_boss_1",
@@ -40,13 +53,26 @@
           "ScriptClass": "BossRotator",
           "ScriptMethod": "jump",
           "Values": []
+        },
+        {
+          "ID": "rotatator_boss_1",
+          "Tick": 50,
+          "ScriptClass": "BossRotator",
+          "ScriptMethod": "rotate_and_shoot",
+          "Values": []
         }
       ]
     },
     {
-      "StageCaption": "Bread",
+      "StageCaption": "Milk",
       "Type": 0,
       "Length": 100,
+      "SetBosses": [
+        {
+          "ID": "rotatator_boss_1",
+          "Value": 20
+        }
+      ],
       "Actions": [
         {
           "ID": "rotatator_boss_1",
@@ -61,6 +87,12 @@
       "StageCaption": "Until Death!!",
       "Type": 1,
       "Length": 100,
+      "SetBosses": [
+        {
+          "ID": "rotatator_boss_1",
+          "Value": 20
+        }
+      ],
       "Actions": [
         {
           "ID": "rotatator_boss_1",

@@ -48,12 +48,19 @@ public class LoadedAction
 			float rnd = GD.Randf();
 			Position = info.InitialPosType == InfoAction.InitialPositionType.Random ? info.InitialRandomPositionStart * rnd + info.InitialRandomPositionEnd * (1 - rnd) : info.InitialPosition;
 		}
+		if (info.SetHealth)
+		{
+			BossHealth = info.HealthToSet;
+		}
+		SetHealth = info.SetHealth;
 	}
 
+	public bool SetHealth;
 	public Boss Boss;
 	public long Tick;
 	public MethodInfo Method;
 	public object[] Values;
 	public bool SetPosition;
 	public Vector3 Position;
+	public float BossHealth;
 }

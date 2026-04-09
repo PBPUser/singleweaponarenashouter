@@ -16,6 +16,12 @@ public class InfoAction
     public string ScriptMethod;
 
     [JsonInclude]
+    public bool SetHealth = false;
+
+    [JsonInclude]
+    public float HealthToSet;
+
+    [JsonInclude]
     public InfoValue[] Values = new InfoValue[0];
 
     [JsonInclude]
