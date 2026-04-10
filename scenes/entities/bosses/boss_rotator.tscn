@@ -1,19 +1,30 @@
 [gd_scene format=3 uid="uid://b04sji45ld0s4"]
 
 [ext_resource type="Script" uid="uid://c1oun07xubyn" path="res://scripts/main/entities/bosses/BossRotator.cs" id="1_mjn0x"]
+[ext_resource type="Shader" uid="uid://ecktrjh07gex" path="res://assets/shaders/damage.gdshader" id="2_58sjt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fggx7"]
+render_priority = 0
+shader = ExtResource("2_58sjt")
+shader_parameter/damagePoint = Vector3(0, 0, 0)
+shader_parameter/basis = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/object_basis = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/damageStrengh = 0.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vel4k"]
+material = SubResource("ShaderMaterial_fggx7")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mcyse"]
 size = Vector3(1, 2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_mawd1"]
 
-[node name="BossRotator" type="CharacterBody3D" unique_id=924428016 node_paths=PackedStringArray("navAgent3D") groups=["boss", "enemy"]]
+[node name="BossRotator" type="CharacterBody3D" unique_id=924428016 node_paths=PackedStringArray("navAgent3D", "Mesh") groups=["boss", "enemy"]]
 collision_layer = 5
 collision_mask = 5
 script = ExtResource("1_mjn0x")
 navAgent3D = NodePath("NavigationAgent3D")
+Mesh = NodePath("MeshInstance3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1186565879]
 mesh = SubResource("CapsuleMesh_vel4k")

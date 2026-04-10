@@ -81,15 +81,23 @@ public partial class Bullet : Area3D, IDisposable
 
 	public void ProcessRotatorBulletMethod(double delta)
 	{
+		float speed = 4f;
+		float p = Math.Min(1f, ((20f - life) % 2f) * 0.5f);
 		if (20f - life > ticker && ticker < 15f)
 		{
 			ticker += 2;
 			prevTarget = target;
 			target = gameplay.player.playerCamera.GlobalPosition;
 		}
-		float p = Math.Min(1f, ((20f - life) % 2f) * 0.5f);
-		LookAt(prevTarget * (1 - p) + target * p);
-		GlobalPosition += GlobalBasis * Vector3.Forward * 4f * (float)delta;
+		else if (ticker > 15)
+		{
+			speed = Mathf.Pow(speed, 1f + (float)delta);
+		}
+		else if (p < 1f)
+		{
+			LookAt(prevTarget * (1 - p) + target * p);
+		}
+		GlobalPosition += GlobalBasis * Vector3.Forward * speed * (float)delta;
 	}
 
 	public void _on_body_entered(Node body)
@@ -98,7 +106,7 @@ public partial class Bullet : Area3D, IDisposable
 		{
 			if (body.IsInGroup(x))
 			{
-				((Entity)body).Damage(damage, damageModifiers);
+				((Entity)body).Damage(damage, damageModifiers, GlobalBasis, GlobalPosition);
 				QueueFree();
 				return;
 			}

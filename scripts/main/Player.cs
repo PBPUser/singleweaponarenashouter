@@ -127,21 +127,21 @@ public partial class Player : Entity
 	Gameplay gameplay;
 
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	public override void __Ready()
 	{
 		Health = 100;
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void __Process(float delta)
 	{
 		if (Input.IsActionJustPressed("pause") && !IsDied)
 			pause.Visible = !pause.Visible;
 		hud.HealthBar.Value = Health;
 		hud.StaminaBar.Value = RunStamina;
 		hud.Health.Text = "" + IsCrouching;
-		base._Process(delta);
+		base.__Process(delta);
 	}
 
 	public override void Died(bool value)

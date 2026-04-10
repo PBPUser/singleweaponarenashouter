@@ -1,7 +1,9 @@
 using System.Diagnostics;
+using Godot;
 
 public partial class Boss : Enemy
 {
+
     string name;
     public string DisplayName
     {

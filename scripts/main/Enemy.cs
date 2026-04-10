@@ -4,5 +4,4 @@ using Godot;
 
 public partial class Enemy : Entity
 {
-
 }

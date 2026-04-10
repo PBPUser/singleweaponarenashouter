@@ -33,9 +33,9 @@ public partial class BossRotator : Boss
 		if (shotDelay < 0)
 		{
 			shotDelay = 4.0f;
-			var bullet = Bullet.Spawn(pistolMethodInfoPrepare, pistolMethodInfoProcess, GlobalPosition, Gameplay.Current,
-				new List<DamageModifier>(), 10f, new string[] { "player" }, 20f);
-			bullet.GlobalBasis = GlobalBasis;
+			//var bullet = Bullet.Spawn(pistolMethodInfoPrepare, pistolMethodInfoProcess, GlobalPosition, Gameplay.Current,
+			//	new List<DamageModifier>(), 10f, new string[] { "player" }, 20f);
+			//bullet.GlobalBasis = GlobalBasis;
 		}
 	}
 }
