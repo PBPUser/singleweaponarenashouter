@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Godot;
@@ -73,27 +74,34 @@ public partial class Entity : CharacterBody3D
 
 	}
 
+	Basis damageBasis;
+
 	public void Damage(float damage, List<DamageModifier> damageModifiers, Basis damageBasis, Vector3 damagePoint)
 	{
+		damageAnim = 0;
 		foreach (DamageModifier x in damageModifiers)
 		{
 			damage = x.ModifyDamage(damage, this);
 		}
 		Health -= damage;
+		this.damageBasis = damageBasis;
 		if (Mesh == null)
+		{
 			return;
+		}
 		damageMaterial.SetShaderParameter("damagePoint", (damagePoint - GlobalPosition) * GlobalBasis);
 		damageMaterial.SetShaderParameter("basis", damageBasis
 		//.Rotated(Vector3.Up, -GlobalRotation[0])
 		//.Rotated(Vector3.Right, -GlobalRotation[1])
 		//.Rotated(Vector3.Back, -GlobalRotation[1])
 		);
-		damageMaterial.SetShaderParameter("damageStrengh", 1.0f);
+		Debug.WriteLine($"Damaged {damage}");
 	}
 
 	float fallingDamage = 0;
+	float damageAnim = 2;
 
-	public void Paralizate()
+	public void Paralize()
 	{
 
 	}
@@ -107,6 +115,10 @@ public partial class Entity : CharacterBody3D
 			fallingDamage += deltaF;
 		}
 		__Process((float)delta);
+		if (Mesh == null)
+			return;
+		damageMaterial.SetShaderParameter("damageStrengh", 1 - Math.Abs(damageAnim - 1));
+		Debug.WriteLine($"Damage Strength: {1 - Math.Abs(damageAnim - 1)}");
 	}
 
 	public virtual void __Process(float delta)
@@ -114,18 +126,29 @@ public partial class Entity : CharacterBody3D
 
 	}
 
+	public virtual void __Physics(float delta)
+	{
+
+	}
+
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
 
-	public override void _PhysicsProcess(double delta)
+	public sealed override void _PhysicsProcess(double delta)
 	{
 		__delta = (float)delta;
+		float deltaF = (float)delta;
 		Vector3 velocity = Velocity;
 		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
+			velocity += GetGravity() * deltaF;
 		Velocity = velocity;
+		__Physics(deltaF);
+		if (damageAnim < 2)
+		{
+			damageAnim = Mathf.Min(2.0f, damageAnim + deltaF);
+			Velocity += (Vector3.Forward * damageBasis) * (1 - Math.Abs(damageAnim - 1)) * deltaF;
+		}
 		MoveAndSlide();
 	}
+
 }

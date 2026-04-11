@@ -164,9 +164,8 @@ public partial class Player : Entity
 		hud.PositionLabel.Text = $"Position: {GlobalPosition}\nRotation: {GlobalRotationDegrees}\nCamera rotation: {playerCamera.GlobalRotationDegrees}";
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void __Physics(float deltaF)
 	{
-		float deltaF = (float)delta;
 		time += deltaF;
 		timeShaking += deltaF;
 		float vX = Velocity.X;
@@ -193,7 +192,7 @@ public partial class Player : Entity
 				vY = 0f;
 		}
 		else
-			vY += -GRAVITY * (float)delta;
+			vY += -GRAVITY * deltaF;
 		sneaking = Mathf.MoveToward(sneaking, isSneaking ? 1 : 0, CROUCHING_SPEED * deltaF);
 		if (Input.IsActionPressed("run") && canRun)
 			isRunning = true;
@@ -210,14 +209,14 @@ public partial class Player : Entity
 		var direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 		if (inputDir.X == 0 && inputDir.Y == 0)
 		{
-			currentSpeed = Mathf.MoveToward(currentSpeed, 0, SPEED_DELTA * (float)delta);
-			cameraShake = Mathf.MoveToward(cameraShake, 0, SPEED_DELTA * (float)delta);
+			currentSpeed = Mathf.MoveToward(currentSpeed, 0, SPEED_DELTA * deltaF);
+			cameraShake = Mathf.MoveToward(cameraShake, 0, SPEED_DELTA * deltaF);
 			isRunning = false;
 		}
 		else
 		{
-			currentSpeed = Mathf.MoveToward(currentSpeed, isRunning ? SPEED_RUNNING : isSneaking ? SPEED_CROUCHING : SPEED, SPEED_DELTA * (float)delta);
-			cameraShake = Mathf.MoveToward(cameraShake, isRunning ? 2 : 1, SPEED_DELTA * (float)delta);
+			currentSpeed = Mathf.MoveToward(currentSpeed, isRunning ? SPEED_RUNNING : isSneaking ? SPEED_CROUCHING : SPEED, SPEED_DELTA * deltaF);
+			cameraShake = Mathf.MoveToward(cameraShake, isRunning ? 2 : 1, SPEED_DELTA * deltaF);
 			directionInput = direction;
 			shakingTime += deltaF * 0.007f * cameraShake;
 			timeShaking += deltaF * 0.007f * cameraShake;
@@ -253,8 +252,6 @@ public partial class Player : Entity
 		Mathf.Cos(timeShaking * 2f), 0) * (1f + cameraShake) * 5f;
 		boxWeapon.Position = posWeapon;
 		Velocity = new Vector3(vX, vY, vZ);
-		MoveAndSlide();
-
 		delayWeapon -= deltaF;
 		if (Input.IsActionPressed("attack"))
 		{
@@ -264,7 +261,6 @@ public partial class Player : Entity
 				delayWeapon = weapon.ComputeAttackDelay(gameplay);
 			}
 		}
-
 	}
 
 	float delayWeapon = 0f;
