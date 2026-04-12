@@ -80,15 +80,11 @@ public partial class Entity : CharacterBody3D
 	{
 		damageAnim = 0;
 		foreach (DamageModifier x in damageModifiers)
-		{
 			damage = x.ModifyDamage(damage, this);
-		}
 		Health -= damage;
 		this.damageBasis = damageBasis;
 		if (Mesh == null)
-		{
 			return;
-		}
 		damageMaterial.SetShaderParameter("damagePoint", (damagePoint - GlobalPosition) * GlobalBasis);
 		damageMaterial.SetShaderParameter("basis", damageBasis
 		//.Rotated(Vector3.Up, -GlobalRotation[0])
@@ -96,6 +92,7 @@ public partial class Entity : CharacterBody3D
 		//.Rotated(Vector3.Back, -GlobalRotation[1])
 		);
 		Debug.WriteLine($"Damaged {damage}");
+		Velocity -= dmgVelocity;
 	}
 
 	float fallingDamage = 0;
@@ -133,6 +130,7 @@ public partial class Entity : CharacterBody3D
 
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
+	Vector3 dmgVelocity = Vector3.Zero;
 
 	public sealed override void _PhysicsProcess(double delta)
 	{
@@ -143,11 +141,13 @@ public partial class Entity : CharacterBody3D
 			velocity += GetGravity() * deltaF;
 		Velocity = velocity;
 		__Physics(deltaF);
+		Velocity -= dmgVelocity;
 		if (damageAnim < 2)
 		{
 			damageAnim = Mathf.Min(2.0f, damageAnim + deltaF);
-			Velocity += (Vector3.Forward * damageBasis) * (1 - Math.Abs(damageAnim - 1)) * deltaF;
+			dmgVelocity = (Vector3.Forward * damageBasis + Vector3.Up) * (1 - Math.Abs(damageAnim - 1));
 		}
+		Velocity += dmgVelocity;
 		MoveAndSlide();
 	}
 
