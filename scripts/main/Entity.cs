@@ -93,7 +93,8 @@ public partial class Entity : CharacterBody3D
         );
         Debug.WriteLine($"Damaged {damage}");
         var v = Velocity;
-        v.Y = .5f;
+        if (IsOnFloor())
+            v.Y = 2f;
         v += damageBasis * Vector3.Forward;
         Velocity = v;
         //Velocity -= dmgVelocity;
