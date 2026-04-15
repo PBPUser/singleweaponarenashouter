@@ -103,7 +103,6 @@ public partial class Gameplay : Node3D
                 isNew = true;
                 AddChild(x.Boss);
                 bosses.Add(x.Boss);
-                Debug.WriteLine($"{x.Boss.BossID} added");
             }
             x.Boss.Died(false);
             if (x.Position != null)
@@ -120,7 +119,10 @@ public partial class Gameplay : Node3D
         long _tick = tick % 20;
         long minute = second / 60;
         second %= 60;
-        return $"{minute:00}:{second:00}.{(_tick * 5):00}";
+        string str = "";
+        if (minute != 0)
+            str += $"{minute:00}:";
+        return $"{str}{second:00}";
     }
 
     public void SetLevel(LoadedLevel level)
