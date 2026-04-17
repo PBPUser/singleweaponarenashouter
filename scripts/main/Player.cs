@@ -127,7 +127,7 @@ public partial class Player : Entity
 	Gameplay gameplay;
 
 	// Called when the node enters the scene tree for the first time.
-	public override void __Ready()
+	public override void ObjectReady()
 	{
 		Health = 100;
 		Input.MouseMode = Input.MouseModeEnum.Captured;

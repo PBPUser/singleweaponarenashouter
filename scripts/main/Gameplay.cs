@@ -116,7 +116,6 @@ public partial class Gameplay : Node3D
 	string FormatTime(long tick)
 	{
 		long second = tick / 20;
-		long _tick = tick % 20;
 		long minute = second / 60;
 		second %= 60;
 		string str = "";

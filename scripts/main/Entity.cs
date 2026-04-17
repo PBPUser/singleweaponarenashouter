@@ -61,7 +61,7 @@ public partial class Entity : CharacterBody3D
 
 	public sealed override void _Ready()
 	{
-		__Ready();
+		ObjectReady();
 		if (this.Mesh == null)
 			return;
 		damageMaterial = new ShaderMaterial();
@@ -69,7 +69,7 @@ public partial class Entity : CharacterBody3D
 		Mesh.MaterialOverlay = damageMaterial;
 	}
 
-	public virtual void __Ready()
+	public virtual void ObjectReady()
 	{
 
 	}
