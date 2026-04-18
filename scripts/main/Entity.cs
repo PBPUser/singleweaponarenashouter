@@ -116,20 +116,19 @@ public partial class Entity : CharacterBody3D
 			Health -= deltaF * fallingDamage * 5;
 			fallingDamage += deltaF;
 		}
-		__Process((float)delta);
+		Process((float)delta);
 		if (Mesh == null)
 			return;
 		Velocity = (Velocity) * (1f - deltaF);
 		damageMaterial.SetShaderParameter("damageStrengh", 1 - Math.Abs(damageAnim - 1));
-		Debug.WriteLine($"Damage Strength: {1 - Math.Abs(damageAnim - 1)}");
 	}
 
-	public virtual void __Process(float delta)
+	public virtual void Process(float delta)
 	{
 
 	}
 
-	public virtual void __Physics(float delta)
+	public virtual void Physics(float delta)
 	{
 
 	}
@@ -146,7 +145,7 @@ public partial class Entity : CharacterBody3D
 		if (!IsOnFloor())
 			velocity += GetGravity() * deltaF;
 		Velocity = velocity;
-		__Physics(deltaF);
+		Physics(deltaF);
 		if (damageAnim < 2)
 		{
 			damageAnim = Mathf.Min(2.0f, damageAnim + deltaF);

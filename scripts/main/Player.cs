@@ -134,14 +134,14 @@ public partial class Player : Entity
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void __Process(float delta)
+	public override void Process(float delta)
 	{
 		if (Input.IsActionJustPressed("pause") && !IsDied)
 			pause.Visible = !pause.Visible;
 		hud.HealthBar.Value = Health;
 		hud.StaminaBar.Value = RunStamina;
 		hud.Health.Text = "" + IsCrouching;
-		base.__Process(delta);
+		base.Process(delta);
 	}
 
 	public override void Died(bool value)
@@ -164,7 +164,7 @@ public partial class Player : Entity
 		hud.PositionLabel.Text = $"Position: {GlobalPosition}\nRotation: {GlobalRotationDegrees}\nCamera rotation: {playerCamera.GlobalRotationDegrees}";
 	}
 
-	public override void __Physics(float deltaF)
+	public override void Physics(float deltaF)
 	{
 		time += deltaF;
 		timeShaking += deltaF;
