@@ -5,152 +5,150 @@ using Godot;
 
 public partial class Entity : CharacterBody3D
 {
-	[Export]
-	public MeshInstance3D Mesh;
+    [Export]
+    public MeshInstance3D Mesh;
 
-	ShaderMaterial damageMaterial;
+    ShaderMaterial damageMaterial;
 
-	bool autoDie = true;
-	///<summary>
-	/// Set IsDied to true when Health reaches 0
-	/// </summary>
-	public bool AutoDie
-	{
-		get => autoDie;
-		set => autoDie = value;
-	}
+    bool autoDie = true;
+    ///<summary>
+    /// Set IsDied to true when Health reaches 0
+    /// </summary>
+    public bool AutoDie
+    {
+        get => autoDie;
+        set => autoDie = value;
+    }
 
-	protected float __delta;
+    protected float __delta;
 
-	float health = 20.0f;
-	public float Health
-	{
-		get => health;
-		set
-		{
-			health = value;
-			OnHealthChanged(value);
-			if (health <= 0)
-				if (autoDie)
-					IsDied = true;
-		}
-	}
+    float health = 20.0f;
+    public float Health
+    {
+        get => health;
+        set
+        {
+            health = value;
+            OnHealthChanged(value);
+            if (health <= 0)
+                if (autoDie)
+                    IsDied = true;
+        }
+    }
 
-	bool isDied = false;
-	public bool IsDied
-	{
-		get => isDied;
-		set
-		{
-			isDied = value;
-			Died(value);
-		}
-	}
+    bool isDied = false;
+    public bool IsDied
+    {
+        get => isDied;
+        set
+        {
+            isDied = value;
+            Died(value);
+        }
+    }
 
-	public virtual void OnHealthChanged(float newHealth)
-	{
+    public virtual void OnHealthChanged(float newHealth)
+    {
 
-	}
+    }
 
-	public virtual void Died(bool isDied)
-	{
+    public virtual void Died(bool isDied)
+    {
 
-	}
+    }
 
 
 
-	public sealed override void _Ready()
-	{
-		ObjectReady();
-		if (this.Mesh == null)
-			return;
-		damageMaterial = new ShaderMaterial();
-		damageMaterial.Shader = GD.Load<Shader>("res://assets/shaders/damage.gdshader");
-		Mesh.MaterialOverlay = damageMaterial;
-	}
+    public sealed override void _Ready()
+    {
+        ObjectReady();
+        if (this.Mesh == null)
+            return;
+        damageMaterial = new ShaderMaterial();
+        damageMaterial.Shader = GD.Load<Shader>("res://assets/shaders/damage.gdshader");
+        Mesh.MaterialOverlay = damageMaterial;
+    }
 
-	public virtual void ObjectReady()
-	{
+    public virtual void ObjectReady()
+    {
 
-	}
+    }
 
-	Basis damageBasis;
+    Basis damageBasis;
 
-	public void Damage(float damage, List<DamageModifier> damageModifiers, Basis damageBasis, Vector3 damagePoint)
-	{
-		damageAnim = 0;
-		foreach (DamageModifier x in damageModifiers)
-			damage = x.ModifyDamage(damage, this);
-		Health -= damage;
-		this.damageBasis = damageBasis;
-		if (Mesh == null)
-			return;
-		damageMaterial.SetShaderParameter("damagePoint", (damagePoint - GlobalPosition) * GlobalBasis);
-		damageMaterial.SetShaderParameter("basis", damageBasis
-		//.Rotated(Vector3.Up, -GlobalRotation[0])
-		//.Rotated(Vector3.Right, -GlobalRotation[1])
-		//.Rotated(Vector3.Back, -GlobalRotation[1])
-		);
-		Debug.WriteLine($"Damaged {damage}");
-		var v = Velocity;
-		if (IsOnFloor())
-			v.Y = 2f;
-		v += damageBasis * Vector3.Forward;
-		Velocity = v;
-		//Velocity -= dmgVelocity;
-	}
+    public void Damage(float damage, List<DamageModifier> damageModifiers, Basis damageBasis, Vector3 damagePoint)
+    {
+        damageAnim = 0;
+        foreach (DamageModifier x in damageModifiers)
+            damage = x.ModifyDamage(damage, this);
+        Health -= damage;
+        this.damageBasis = damageBasis;
+        if (Mesh == null)
+            return;
+        damageMaterial.SetShaderParameter("damagePoint", (damagePoint - GlobalPosition) * GlobalBasis);
+        damageMaterial.SetShaderParameter("basis", damageBasis
+            .Rotated(Vector3.Up, -GlobalRotation[0])
+            .Rotated(Vector3.Right, -GlobalRotation[2])
+            .Rotated(Vector3.Back, -GlobalRotation[1])
+        );
+        Debug.WriteLine($"Damaged {damage}");
+        var v = Velocity;
+        if (IsOnFloor())
+            v.Y = 2f;
+        v += damageBasis * Vector3.Forward;
+        Velocity = v;
+        //Velocity -= dmgVelocity;
+    }
 
-	float fallingDamage = 0;
-	protected float damageAnim = 2;
+    float fallingDamage = 0;
+    protected float damageAnim = 2;
 
-	public void Paralize()
-	{
+    public void Paralize()
+    {
 
-	}
+    }
 
-	public sealed override void _Process(double delta)
-	{
-		float deltaF = (float)delta;
-		if (Position.Y < -100)
-		{
-			Health -= deltaF * fallingDamage * 5;
-			fallingDamage += deltaF;
-		}
-		Process((float)delta);
-		if (Mesh == null)
-			return;
-		Velocity = (Velocity) * (1f - deltaF);
-		damageMaterial.SetShaderParameter("damageStrengh", 1 - Math.Abs(damageAnim - 1));
-	}
+    public sealed override void _Process(double delta)
+    {
+        float deltaF = (float)delta;
+        if (Position.Y < -100)
+        {
+            Health -= deltaF * fallingDamage * 5;
+            fallingDamage += deltaF;
+        }
+        Process((float)delta);
+        if (Mesh == null)
+            return;
+        Velocity = (Velocity) * (1f - deltaF);
+        damageMaterial.SetShaderParameter("damageStrengh", 1 - Math.Abs(damageAnim - 1));
+    }
 
-	public virtual void Process(float delta)
-	{
+    public virtual void Process(float delta)
+    {
 
-	}
+    }
 
-	public virtual void Physics(float delta)
-	{
+    public virtual void Physics(float delta)
+    {
 
-	}
+    }
 
-	public const float Speed = 5.0f;
-	public const float JumpVelocity = 4.5f;
-	Vector3 dmgVelocity = Vector3.Zero;
+    public const float Speed = 5.0f;
+    public const float JumpVelocity = 4.5f;
+    Vector3 dmgVelocity = Vector3.Zero;
 
-	public sealed override void _PhysicsProcess(double delta)
-	{
-		__delta = (float)delta;
-		float deltaF = (float)delta;
-		Vector3 velocity = Velocity;
-		if (!IsOnFloor())
-			velocity += GetGravity() * deltaF;
-		Velocity = velocity;
-		Physics(deltaF);
-		if (damageAnim < 2)
-		{
-			damageAnim = Mathf.Min(2.0f, damageAnim + deltaF);
-		}
-		MoveAndSlide();
-	}
+    public sealed override void _PhysicsProcess(double delta)
+    {
+        __delta = (float)delta;
+        float deltaF = (float)delta;
+        Vector3 velocity = Velocity;
+        if (!IsOnFloor())
+            velocity += GetGravity() * deltaF;
+        Velocity = velocity;
+        Physics(deltaF);
+        if (damageAnim < 2)
+            damageAnim = Mathf.Min(2.0f, damageAnim + deltaF);
+        MoveAndSlide();
+    }
 
 }
