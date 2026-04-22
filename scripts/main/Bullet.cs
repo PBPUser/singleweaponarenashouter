@@ -33,10 +33,7 @@ public partial class Bullet : Area3D, IDisposable
 		return b;
 	}
 
-	public void SetValue(string index, object value)
-	{
-		dict[index] = value;
-	}
+	public void SetValue(string index, object value) => dict[index] = value;
 
 	// Call ed when the node enters the scene tree for the first time.
 	public override void _Ready()
