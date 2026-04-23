@@ -230,7 +230,7 @@ public partial class Player : Entity
 		playerCamera.Position = CAMERA_POSITION_DEFAULT * (1f - sneaking) + (CAMERA_POSITION_CROUCH * sneaking);
 		if (isCrouching)
 		{
-			var crouchAnim = Mathf.Pow((crouching / CROUCHING_LENGTH) * 2 - 1, 4);
+			var crouchAnim = Mathf.Pow(crouching / CROUCHING_LENGTH * 2 - 1, 4);
 			playerCamera.Position = playerCamera.Position * (1f - crouchAnim) + (CAMERA_POSITION_CROUCH * crouchAnim);
 		}
 		collision.Position = COLLISION_POSITION_DEFAULT * (1f - sneaking) + (COLLISION_POSITION_CROUCH * sneaking);
