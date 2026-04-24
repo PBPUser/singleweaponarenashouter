@@ -87,13 +87,9 @@ public partial class Bullet : Area3D, IDisposable
 			target = gameplay.player.playerCamera.GlobalPosition;
 		}
 		else if (ticker > 15)
-		{
 			speed = Mathf.Pow(speed, 1f + (float)delta);
-		}
 		else if (p < 1f)
-		{
 			LookAt(prevTarget * (1 - p) + target * p);
-		}
 		GlobalPosition += GlobalBasis * Vector3.Forward * speed * (float)delta;
 	}
 
