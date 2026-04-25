@@ -73,13 +73,13 @@ public partial class Gameplay : Node3D
 				activationIndex = 0;
 			}
 			else
-				moveToNextStage();
+				MoveToNextStage();
 		}
 		hud.Tick.Text = _stage.TimerType == InfoStage.TimerType.Limited ? FormatTime(_stage.Length - (long)tick) : tick + "";
 		hud.BossStage.Text = _stage.StageName + "\n" + String.Format(", ", level.Stages[stage].ActivationTicks) + $"\nStage: {stage}\nNext tick: {nextActivation}";
 	}
 
-	void moveToNextStage()
+	void MoveToNextStage()
 	{
 		tick = 0;
 		activationIndex = 0;
@@ -129,7 +129,7 @@ public partial class Gameplay : Node3D
 		level = loadedLevel;
 		isLevelLoaded = true;
 		stage = -1;
-		moveToNextStage();
+		MoveToNextStage();
 	}
 
 	public void SetWeapon(SceneAttribute weaponSceneAttrib)
@@ -147,14 +147,14 @@ public partial class Gameplay : Node3D
 		switch (_stage.RequiredBossTypeDie)
 		{
 			case InfoStage.RequiresToDie.AnyBoss:
-				moveToNextStage();
+				MoveToNextStage();
 				return;
 			case InfoStage.RequiresToDie.ExactBoss:
 				return;
 			case InfoStage.RequiresToDie.AllBosses:
 				bossCount--;
 				if (bossCount == 0)
-					moveToNextStage();
+					MoveToNextStage();
 				return;
 		}
 	}

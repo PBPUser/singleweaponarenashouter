@@ -76,6 +76,8 @@ public partial class Bullet : Area3D, IDisposable
 		ticker = 0;
 	}
 
+
+
 	public void ProcessRotatorBulletMethod(double delta)
 	{
 		float speed = 4f;
